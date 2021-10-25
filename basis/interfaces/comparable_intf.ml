@@ -1,6 +1,5 @@
+(** An interface for types whose inhabitants can be ordered. *)
 module type Basic = sig
-  (** The basic interface of types whose inhabitants can be ordered. *)
-
   type t
 
   (** [compare a b] is [0] when [a] and [b] are equal, a negative integer when
@@ -10,6 +9,7 @@ module type Basic = sig
   val compare : t -> t -> int
 end
 
+(** An interface for comparison operators. *)
 module type Infix = sig
   type t
 
@@ -26,6 +26,7 @@ module type Infix = sig
   val ( >= ) : t -> t -> bool
 end
 
+(** An interface for comparable types. *)
 module type S = sig
   type t
   include Basic with type t := t
