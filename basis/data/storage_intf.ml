@@ -1,5 +1,5 @@
-(** An interface for contiguous, resizable storage of elements. *)
-module type S = sig
+(** A basic interface for contiguous, resizable storage of elements. *)
+module type Basic = sig
   (** Elements being stored *)
   type elt
 
@@ -57,4 +57,36 @@ module type S = sig
       @raise Invalid_arg is [amt] is negative or exceeds the capacity of [store]
     *)
   val extend : t -> int -> elt -> unit
+end
+
+module type S = sig
+  include Basic
+
+  (** [ensure_capacity store cap] will ensure that [store] has enough capacity
+      to fit [cap] elements, reallocating the underlying data if necessary. This
+      function will choose the least power of two greater than [cap] for the new
+      capacity if a reallocation is necessary, so calling this function often is
+      relatively cheap.
+
+      @raise Invalid_arg if [cap] is negative or greater than {!val:max_capacity}.
+    *)
+  val ensure_capacity : t -> int -> unit
+
+  (** [grow store amt v] is like {!val:extend} with the same arguments, but it
+      also will ensure that there is enough capacity to fit the extra elements,
+      as in {!val:ensure_capacity}.
+
+      @raise Invalid_arg if [amt] is negative or the new length is greater than
+      {!val:max_capacity}
+    *)
+  val grow : t -> int -> elt -> unit
+
+  (** [compact store] will reduce the capacity of [store] to the least power of
+      two greater than [store]'s current length, or do nothing if the capacity
+      is already less than or equal to this value. *)
+  val compact : t -> unit
+
+  (** [shrink store amt] is like {!val:discard} with the same arguments, but it
+      additionally will reduce the capacity as in {!val:compact}. *)
+  val shrink : t -> int -> unit
 end

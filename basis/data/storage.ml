@@ -1,6 +1,6 @@
 include Storage_intf
 
-module Make (T: Storable_intf.Basic) = struct
+module MakeBasic (T: Storable_intf.Basic) = struct
   type elt = T.t
 
   type t = { mutable length: int; mutable data: bytes }
@@ -71,3 +71,33 @@ module Make (T: Storable_intf.Basic) = struct
     if store.length + amt > capacity store then failwith "no capacity";
     unsafe_extend store amt init
 end
+
+module OfBasic (T: Basic) = struct
+  include T
+
+  let next_pow2 n =
+    if n = 0 then 1 else
+    let open Float in
+    log (of_int n) /. log 2.
+    |> ceil
+    |> pow 2.
+    |> to_int
+
+  let ensure_capacity store cap =
+    if cap > capacity store then set_capacity store (next_pow2 cap)
+
+  let grow store amt v =
+    ensure_capacity store (length store + amt);
+    extend store amt v
+
+  let compact store =
+    let len = length store in
+    let cap = capacity store in
+    if len < cap / 2 then set_capacity store (next_pow2 len)
+
+  let shrink store amt =
+    discard store amt;
+    compact store
+end
+
+module Make (T: Storable_intf.Basic) = OfBasic (MakeBasic (T))
