@@ -24,3 +24,8 @@ module type Basic = sig
     *)
   val unsafe_restore: bytes -> int -> t
 end
+
+module type S = sig
+  include Basic
+  module Storage: Storage_intf.S with type elt = t
+end
