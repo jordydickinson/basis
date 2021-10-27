@@ -1,0 +1,1 @@
+include module type of struct include Storable_intf end
