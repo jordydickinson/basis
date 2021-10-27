@@ -138,71 +138,82 @@ let compact xs =
   let len = length xs in
   if len < cap / 2 then set_capacity xs (next_pow2 len)
 
-let set (type a) (xs: a t) i (v: a) =
-  if i < 0 then invalid_arg "negative index";
-  if i >= length xs then raise Not_found;
-  match !xs with
-  | Initdata { data = { elts; _ }; _ } -> elts.(i) <- v
-  | Floatdata { elts; _ } -> Float.Array.set elts i v
-  | Chardata { elts; _ } -> Bytes.set elts i v
+let unsafe_set (type a) (xs: a t) i (v: a) = match !xs with
+| Initdata { data = { elts; _ }; _ } -> Array.unsafe_set elts i v
+| Floatdata { elts; _ } -> Float.Array.unsafe_set elts i v
+| Chardata { elts; _ } -> Bytes.unsafe_set elts i v
 
-let get (type a) (xs: a t) i : a =
+let set xs i v =
   if i < 0 then invalid_arg "negative index";
   if i >= length xs then raise Not_found;
-  match !xs with
-  | Initdata { data = { elts; _ }; _ } -> elts.(i)
-  | Floatdata { elts; _ } -> Float.Array.get elts i
-  | Chardata { elts; _ } -> Bytes.get elts i
+  unsafe_set xs i v
+
+let unsafe_get (type a) (xs: a t) i : a = match !xs with
+| Initdata { data = { elts; _ }; _ } -> Array.unsafe_get elts i
+| Floatdata { elts; _ } -> Float.Array.unsafe_get elts i
+| Chardata { elts; _ } -> Bytes.unsafe_get elts i
+
+let get xs i =
+  if i < 0 then invalid_arg "negative index";
+  if i >= length xs then raise Not_found;
+  unsafe_get xs i
 
 let push xs v =
   let len = length xs in
   set_length xs (len + 1);
-  set xs len v
+  unsafe_set xs len v
 
 let pop xs =
   let len = length xs in
   if len = 0 then raise Not_found;
-  let x = get xs (len - 1) in
+  let x = unsafe_get xs (len - 1) in
   set_length xs (len - 1);
   compact xs;
   x
 
 let pop_opt xs = try Some (pop xs) with Not_found -> None
 
-let fill (type a) (xs: a t) pos len (v: a) =
+let unsafe_fill (type a) (xs: a t) pos len (v: a) = match !xs with
+| Initdata xs -> Array.fill xs.data.elts pos len v
+| Floatdata xs -> Float.Array.fill xs.elts pos len v
+| Chardata xs -> Bytes.unsafe_fill xs.elts pos len v
+
+let fill xs pos len v =
   if pos < 0 then invalid_arg "negative start index";
   if len < 0 then invalid_arg "negative length";
   let new_len = max (length xs) (pos + len) in
   set_length xs new_len;
-  match !xs with
-  | Initdata xs -> Array.fill xs.data.elts pos len v
-  | Floatdata xs -> Float.Array.fill xs.elts pos len v
-  | Chardata xs -> Bytes.fill xs.elts pos len v
+  unsafe_fill xs pos len v
 
-let blit (type a) (src: a t) src_pos (dst: a t) dst_pos len =
+let unsafe_blit (type a) (src: a t) src_pos (dst: a t) dst_pos len
+= match make_data_pair src dst with
+| Initdata_pair (src, dst) ->
+  Array.blit src.data.elts src_pos dst.data.elts dst_pos len
+| Floatdata_pair (src, dst) ->
+  Float.Array.blit src.elts src_pos dst.elts dst_pos len
+| Chardata_pair (src, dst) ->
+  Bytes.unsafe_blit src.elts src_pos dst.elts dst_pos len
+
+let blit src src_pos dst dst_pos len =
   if src_pos < 0 then invalid_arg "negative source position";
   if dst_pos < 0 then invalid_arg "negative destination position";
   if len < 0 then invalid_arg "negative length";
   ensure_length dst (dst_pos + len);
-  match make_data_pair src dst with
-  | Initdata_pair (src, dst) ->
-    Array.blit src.data.elts src_pos dst.data.elts dst_pos len
-  | Floatdata_pair (src, dst) ->
-    Float.Array.blit src.elts src_pos dst.elts dst_pos len
-  | Chardata_pair (src, dst) ->
-    Bytes.blit src.elts src_pos dst.elts dst_pos len
+  unsafe_blit src src_pos dst dst_pos len
 
-let iteri (type a) (f: int -> a -> unit) (xs: a t) = match !xs with
-| Initdata xs -> Array.iteri f xs.data.elts
-| Floatdata xs -> Float.Array.iteri f xs.elts
-| Chardata xs -> Bytes.iteri f xs.elts
+let iteri f xs =
+  let get = unsafe_get xs in
+  let len = length xs in
+  for i = 0 to len - 1 do
+    f i @@ get i
+  done
 
 let iter f = iteri (fun _ -> f)
 
 let mapi_into f src dst =
   ensure_length dst (length src);
   src |> iteri begin fun i x ->
-    set dst i (f i x)
+    unsafe_set dst i (f i x)
   end
 
 let map_into f = mapi_into (fun _ -> f)
@@ -253,16 +264,18 @@ let fold_left f init xs =
   !acc
 
 let fold_right f xs init =
+  let get = unsafe_get xs in
   let acc = ref init in
   for i = length xs - 1 downto 0 do
-    acc := f (get xs i) !acc
+    acc := f (get i) !acc
   done;
   !acc
 
 let iteri2 f xs ys =
+  let get = unsafe_get ys in
   let len = length xs in
   if len <> length ys then invalid_arg "unequal lengths";
-  xs |> iteri (fun i x -> f i x @@ get ys i)
+  xs |> iteri (fun i x -> f i x @@ get i)
 
 let iter2 f = iteri2 (fun _ -> f)
 
@@ -270,17 +283,19 @@ let mapi2 init f xs ys =
   let len = length xs in
   if len <> length ys then invalid_arg "unequal lengths";
   let zs = create len init in
-  iteri2 (fun i x y -> set zs i (f i x y)) xs ys;
+  let set = unsafe_set zs in
+  iteri2 (fun i x y -> set i (f i x y)) xs ys;
   zs
 
 let map2 init f = mapi2 init (fun _ -> f)
 
 let for_alli pred xs =
+  let get = unsafe_get xs in
   let all_so_far = ref true in
   let i = ref 0 in
   let len = length xs in
   while !all_so_far && !i < len do
-    all_so_far := pred !i (get xs !i);
+    all_so_far := pred !i (get !i);
     incr i
   done;
   !all_so_far
