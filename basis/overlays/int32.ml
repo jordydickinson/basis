@@ -23,4 +23,5 @@ module T = struct
 end
 
 include T
+include Comparable.Make (T)
 include Storable.Make (T)
