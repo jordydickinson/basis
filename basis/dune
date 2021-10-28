@@ -1,4 +1,4 @@
 (include_subdirs unqualified)
 
 (library
- (name basis))
+ (public_name basis))
