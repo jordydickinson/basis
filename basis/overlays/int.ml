@@ -1,7 +1,7 @@
 module T = struct
   include Stdlib.Int
 
-  let hash i = i
+  let hash = Hashtbl.hash
 
   let size = Sys.int_size
 
