@@ -5,14 +5,16 @@ module MakeBasic (T: Storable_intf.Basic) = struct
 
   type t = { mutable length: int; mutable data: bytes }
 
-  let () = if T.storage_size < 0 then invalid_arg "negative storage size"
+  let () = if T.size < 0 then invalid_arg "negative storage size"
 
-  let max_capacity = Sys.max_string_length / T.storage_size
+  let storage_size = T.size / 8 + if T.size mod 8 = 0 then 0 else 1
+
+  let max_capacity = Sys.max_string_length / storage_size
 
   let create cap =
     if cap < 0 then invalid_arg "negative capacity";
     if cap > max_capacity then invalid_arg "capacity exceeds system limits";
-    let n = cap * T.storage_size in
+    let n = cap * storage_size in
     { length = 0
     ; data = Bytes.create n
     }
@@ -26,12 +28,12 @@ module MakeBasic (T: Storable_intf.Basic) = struct
 
   let clear store = store.length <- 0
 
-  let capacity store = Bytes.length store.data / T.storage_size
+  let capacity store = Bytes.length store.data / storage_size
 
   let unsafe_set_capacity store cap =
-    let n = cap * T.storage_size in
+    let n = cap * storage_size in
     let data = Bytes.create n in
-    Bytes.unsafe_blit store.data 0 data 0 (store.length * T.storage_size);
+    Bytes.unsafe_blit store.data 0 data 0 (store.length * storage_size);
     store.data <- data
 
   let set_capacity store cap =
@@ -41,11 +43,11 @@ module MakeBasic (T: Storable_intf.Basic) = struct
     if cap <> capacity store then unsafe_set_capacity store cap
 
   let unsafe_set store i v =
-    let pos = i * T.storage_size in
+    let pos = i * storage_size in
     T.unsafe_store v store.data pos
 
   let unsafe_get store i =
-    let pos = i * T.storage_size in
+    let pos = i * storage_size in
     T.unsafe_restore store.data pos
 
   let set store i v =
