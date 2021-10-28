@@ -1,3 +1,5 @@
+include Equatable.S with type t := int64
+include Comparable.S with type t := int64
 include Storable.S with type t := int64
 include module type of struct include Stdlib.Int64 end
 
