@@ -20,8 +20,11 @@ module T = struct
   let unsafe_store src dst i = Bytes.set_int64_be dst (i * 8) src
 
   let unsafe_restore src i = Bytes.get_int64_be src (i * 8)
+
+  let hash = Hashtbl.hash
 end
 
 include T
 include Comparable.Make (T)
+include Hashable.Make (T)
 include Storable.Make (T)
