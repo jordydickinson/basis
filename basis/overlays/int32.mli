@@ -1,3 +1,4 @@
+include Storable.S with type t := int32
 include module type of struct include Stdlib.Int32 end
 
 (** [set_bit ~at i] is [i] with the bit at offset [at] set.
