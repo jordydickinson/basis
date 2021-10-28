@@ -1,4 +1,5 @@
 (lang dune 2.8)
+(name basis)
 (generate_opam_files true)
 
 (package
@@ -6,4 +7,8 @@
  (synopsis "A small Stdlib overlay")
  (depends
   (ocaml (and (>= 4.12.0))))
- (license LGPLv3))
+ (license LGPL-3.0)
+ (maintainers "Jordy Dickinson <jordy.dickinson@icloud.com>")
+ (authors "Jordy Dickinson <jordy.dickinson@icloud.com>")
+ (homepage https://github.com/jordydickinson/basis)
+ (bug_reports https://github.com/jordydickinson/basis/issues))
