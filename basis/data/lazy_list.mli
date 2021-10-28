@@ -111,3 +111,10 @@ val filter : ('a -> bool) -> 'a t -> 'a t
 (** [combine xs ys] is [cons (x1, y1) (cons (x2, y2) (... (cons (xn, yn) nil)))]
     or @raise Invalid_arg if [xs] and [ys] are of unequal lengths. *)
 val combine : 'a t -> 'b t -> ('a * 'b) t
+
+(** [of_seq xs] is a lazy list comprised of the elements of the sequence [xs].
+    This function is lazy. *)
+val of_seq : 'a Seq.t -> 'a t
+
+(** [to_seq xs] is a sequence comprised of the elements of the lazy list [xs]. *)
+val to_seq : 'a t -> 'a Seq.t

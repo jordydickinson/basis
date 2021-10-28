@@ -118,3 +118,12 @@ let rec combine xs ys = lazy begin match xs, ys with
 | lazy (Cons (x, xs)), lazy (Cons (y, ys)) -> Cons ((x, y), combine xs ys)
 | _ -> invalid_arg "unequal lengths"
 end
+
+let to_seq xs = xs |> Seq.unfold begin fun xs ->
+  Option.map (fun x -> x, tl xs) (hd_opt xs)
+end
+
+let rec of_seq (xs: _ Seq.t) = lazy begin match xs () with
+| Nil -> Nil
+| Cons (x, xs) -> Cons (x, of_seq xs)
+end
