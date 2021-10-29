@@ -18,3 +18,12 @@ let head_opt xs =
 let head xs = match head_opt xs with
 | None -> failwith "head []"
 | Some xs -> xs
+
+let rec last_opt = function
+| [] -> None
+| [x] -> Some x
+| _ :: xs -> last_opt xs
+
+let last xs = match last_opt xs with
+| None -> failwith "last []"
+| Some x -> x
