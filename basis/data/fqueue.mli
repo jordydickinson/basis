@@ -28,3 +28,7 @@ val of_seq: 'a Seq.t -> 'a t
 
 (** [to_seq xs] is a sequence constructed as if by repeated calls to {!val:pop}. *)
 val to_seq: 'a t -> 'a Seq.t
+
+(** [to_list xs] is equivalent to [List.of_seq @@ to_seq xs], but avoids the
+    spurious allocation of the sequence. *)
+val to_list: 'a t -> 'a list

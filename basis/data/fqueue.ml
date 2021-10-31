@@ -38,3 +38,7 @@ let of_seq xs = Seq.fold_left (Fun.flip push) empty xs
 let to_seq xs =
   if is_empty xs then Seq.empty else
   Seq.unfold pop_opt xs
+
+let to_list xs =
+  if is_empty xs then [] else
+  xs.unpopped @ List.rev xs.pushed
