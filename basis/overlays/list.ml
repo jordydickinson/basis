@@ -27,3 +27,13 @@ let rec last_opt = function
 let last xs = match last_opt xs with
 | None -> failwith "last []"
 | Some x -> x
+
+let combine_rem xs ys =
+  let rec combine_rem' acc xs ys = match xs, ys with
+  | [], [] -> rev acc, None
+  | [], ys -> rev acc, Some (Either.Right ys)
+  | xs, [] -> rev acc, Some (Either.Left xs)
+  | x :: xs, y :: ys ->
+    combine_rem' ((x, y) :: acc) xs ys
+  in
+  combine_rem' [] xs ys

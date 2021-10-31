@@ -17,3 +17,9 @@ val last: 'a t -> 'a
 (** [last_opt] is like {!val:last} but it returns [None] rather than raising
     an exception. *)
 val last_opt: 'a t -> 'a option
+
+(** [combine_rem xs ys] transforms a pair of lists into a list of pairs similar
+    to {!val:combine}, but when [xs] and [ys] have differing lengths, the
+    longest possible combined list is returned along with the remainder of
+    whichever of the two was longer. *)
+val combine_rem: 'a t -> 'b t -> ('a * 'b) t * ('a t, 'b t) Either.t option
