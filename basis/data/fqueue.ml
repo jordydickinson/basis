@@ -27,6 +27,8 @@ let pop q = match pop_opt q with
 | None -> failwith "pop empty"
 | Some xxs -> xxs
 
+let unpop x xs = { xs with unpopped = x :: xs.unpopped }
+
 let map f xs =
   if is_empty xs then empty else
   { pushed = List.map f xs.pushed

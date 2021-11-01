@@ -18,6 +18,10 @@ val pop: 'a t -> 'a * 'a t
     exception. *)
 val pop_opt: 'a t -> ('a * 'a t) option
 
+(** [unpop] is like {!val:push}, but the element is appended to the tail of the
+    queue instead. *)
+val unpop: 'a -> 'a t -> 'a t
+
 (** [map f xs] is a queue whose elements are constructed by applying [f] to
     those of [xs]. *)
 val map: ('a -> 'b) -> 'a t -> 'b t
