@@ -44,3 +44,5 @@ let to_seq xs =
 let to_list xs =
   if is_empty xs then [] else
   xs.unpopped @ List.rev xs.pushed
+
+let of_list xs = { empty with unpopped = xs }

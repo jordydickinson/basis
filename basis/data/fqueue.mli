@@ -36,3 +36,7 @@ val to_seq: 'a t -> 'a Seq.t
 (** [to_list xs] is equivalent to [List.of_seq @@ to_seq xs], but avoids the
     spurious allocation of the sequence. *)
 val to_list: 'a t -> 'a list
+
+(** [of_list xs] is equivalent to [of_seq @@ List.to_seq xs], but it runs in
+    constant time. *)
+val of_list: 'a list -> 'a t
