@@ -40,6 +40,7 @@ module Result = Result
 module Dyn_array = Dyn_array
 module Fqueue = Fqueue
 module Lazy_list = Lazy_list
+module Or = Or
 module Sexp = Sexp
 module Storage = Storage
 
