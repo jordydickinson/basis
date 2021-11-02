@@ -40,3 +40,10 @@ val to_list: 'a t -> 'a list
 (** [of_list xs] is equivalent to [of_seq @@ List.to_seq xs], but it runs in
     constant time. *)
 val of_list: 'a list -> 'a t
+
+(** [rev xs] is a queue with all the elements of [xs] in reverse order. *)
+val rev: 'a t -> 'a t
+
+(** [append xs ys] is a queue with all the elements of [xs] and then all the
+    elements of [ys]. *)
+val append: 'a t -> 'a t -> 'a t

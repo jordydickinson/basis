@@ -46,3 +46,15 @@ let to_list xs =
   xs.unpopped @ List.rev xs.pushed
 
 let of_list xs = { empty with unpopped = xs }
+
+let rev = function
+| { pushed = []; unpopped = [] } -> empty
+| { pushed; unpopped = [] } -> { empty with unpopped = pushed }
+| { pushed; unpopped } -> { empty with unpopped = List.rev_append unpopped pushed }
+
+let append xs ys =
+  if is_empty xs then (if is_empty ys then empty else ys) else
+  if is_empty ys then xs else
+  let pushed = xs.pushed in
+  let unpopped = xs.unpopped @ List.rev_append ys.pushed ys.unpopped in
+  { pushed; unpopped }
