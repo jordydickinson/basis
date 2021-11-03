@@ -28,7 +28,12 @@ module Lazy_list = Lazy_list
 module Or = Or
 module Sexp = Sexp
 module Storage = Storage
+module Void = Void
 
 (** {0 Pervasives} *)
+
+type void = Void.t
+
+let unreachable = Void.unreachable
 
 external phys_same : 'a -> 'b -> bool = "%eq"

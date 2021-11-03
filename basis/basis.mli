@@ -43,6 +43,7 @@ module Lazy_list = Lazy_list
 module Or = Or
 module Sexp = Sexp
 module Storage = Storage
+module Void = Void
 
 (** {0 Pervasives}
 
@@ -50,6 +51,11 @@ module Storage = Storage
     available as soon as Basis is opened, or simply that they defy
     categorization.
   *)
+
+type void = Void.t
+
+(** [unreachable] is an alias for {!val:Void.unreachable}. *)
+val unreachable: void -> 'a
 
 (** [phys_same] is like {!val:(==)} but it can compare terms of unequal type.
   This is mostly useful when optimizing code to avoid superfluous memory
