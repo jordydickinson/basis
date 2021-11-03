@@ -17,6 +17,7 @@ module Int32 = Int32
 module Int64 = Int64
 module Lazy = Lazy
 module List = List
+module Map = Map
 module Option = Option
 module Result = Result
 
