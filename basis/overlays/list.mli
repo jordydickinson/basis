@@ -1,3 +1,4 @@
+include Comparable.Container
 include module type of struct include Stdlib.List end
 
 (** [is_empty xs] is [true] if [xs = []] and [false] otherwise. *)

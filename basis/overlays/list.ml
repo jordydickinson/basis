@@ -1,3 +1,4 @@
+include Comparable.MakeContainer (Stdlib.List)
 include Stdlib.List
 
 let is_empty = function
