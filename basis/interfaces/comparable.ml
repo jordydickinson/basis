@@ -13,3 +13,12 @@ module Make (T: Basic) = struct
   module Set = Set.Make (T)
   module Map = Map.Make (T)
 end
+
+module MakeContainer (T: BasicContainer) = struct
+  include T
+  
+  module MakeComparable (T: Basic) = Make (struct
+    type nonrec t = T.t t
+    let compare = compare T.compare
+  end)
+end

@@ -9,6 +9,18 @@ module type Basic = sig
   val compare : t -> t -> int
 end
 
+(** A basic interface for comparable containers. *)
+module type BasicContainer = sig
+  type 'a t
+
+  (** [compare compare_elt xs ys] compares [xs] and [ys], using [compare_elt] to
+      compare each element of [xs] and [ys]. If [Stdlib.compare xs ys = i] and
+      for any two [x], [y] we have [Stdlib.compare x y = i] implies
+      [compare_elt x y = i], then [compare compare_elt xs ys] must also equal
+      [i]. *)
+  val compare: ('a -> 'a -> int) -> 'a t -> 'a t -> int
+end
+
 (** An interface for comparison operators. *)
 module type Infix = sig
   type t
@@ -32,4 +44,11 @@ module type S = sig
   include Basic with type t := t
   module Set: Set.S with type elt = t
   module Map: Map.S with type key = t
+end
+
+(** An interface for comparable containers. *)
+module type Container = sig
+  type 'a t
+  include BasicContainer with type 'a t := 'a t
+  module MakeComparable (T: Basic): S with type t = T.t t
 end
