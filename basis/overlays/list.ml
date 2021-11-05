@@ -29,12 +29,16 @@ let last xs = match last_opt xs with
 | None -> failwith "last []"
 | Some x -> x
 
-let combine_rem xs ys =
-  let rec combine_rem' acc xs ys = match xs, ys with
-  | [], [] -> rev acc, None
-  | [], ys -> rev acc, Some (Either.Right ys)
-  | xs, [] -> rev acc, Some (Either.Left xs)
+let fold_left2_rem f =
+  let rec fold_left2_rem' acc xs ys = match xs, ys with
+  | [], [] -> acc, None
+  | [], ys -> acc, Some (Either.Right ys)
+  | xs, [] -> acc, Some (Either.Left xs)
   | x :: xs, y :: ys ->
-    combine_rem' ((x, y) :: acc) xs ys
+    fold_left2_rem' (f acc x y) xs ys
   in
-  combine_rem' [] xs ys
+  fold_left2_rem'
+
+let combine_rem xs ys =
+  let xys, rem = fold_left2_rem (fun xys x y -> (x, y) :: xys) [] xs ys in
+  rev xys, rem

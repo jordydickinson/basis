@@ -19,6 +19,11 @@ val last: 'a t -> 'a
     an exception. *)
 val last_opt: 'a t -> 'a option
 
+(** [fold_left2_rem] is like {!val:fold_left2} but rather than raising an
+    exception it folds as much as it can and returns a remainder when the lists
+    are of unequal length. *)
+val fold_left2_rem: ('acc -> 'a -> 'b -> 'acc) -> 'acc -> 'a t -> 'b t -> 'acc * ('a t, 'b t) Either.t option
+
 (** [combine_rem xs ys] transforms a pair of lists into a list of pairs similar
     to {!val:combine}, but when [xs] and [ys] have differing lengths, the
     longest possible combined list is returned along with the remainder of
