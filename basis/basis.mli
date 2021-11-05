@@ -41,6 +41,7 @@ module Dyn_array = Dyn_array
 module Fqueue = Fqueue
 module Lazy_list = Lazy_list
 module Or = Or
+module Prefix_map = Prefix_map
 module Sexp = Sexp
 module Storage = Storage
 module Void = Void
