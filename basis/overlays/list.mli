@@ -44,6 +44,12 @@ val take: int -> 'a t -> 'a t
 (** [drop n xs] is [snd @@ takedrop n xs]. *)
 val drop: int -> 'a t -> 'a t
 
+(** [fold_left_while] is like {!val:fold_left}, but the provided function also
+    indicates whether it wants the fold to continue. In addition to the
+    accumulated value, the remainder of the list which was not traversed is
+    returned as well. *)
+val fold_left_while: ('acc -> 'a -> 'acc * bool) -> 'acc -> 'a t -> 'acc * 'a t
+
 (** [takedrop_while f xs] is a pair of lists [ys, zs] where [ys] is comprised of
     the longest prefix of [xs] whose elements satisfy [f], and [zs] is comprised
     of the remainder. *)

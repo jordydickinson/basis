@@ -56,12 +56,21 @@ let take n xs = fst @@ takedrop n xs
 
 let drop n xs = snd @@ takedrop n xs
 
-let takedrop_while f =
-  let rec takedrop_while acc = function
-  | x :: xs when f x -> takedrop_while (x :: acc) xs
-  | xs -> rev acc, xs
+let fold_left_while f =
+  let rec fold_left_while' acc = function
+  | [] -> acc, []
+  | x :: xs ->
+    let acc, continue = f acc x in
+    if continue
+    then fold_left_while' acc xs
+    else acc, xs
   in
-  takedrop_while []
+  fold_left_while'
+
+let takedrop_while f xs =
+  let folder acc x = if f x then x :: acc, true else acc, false in
+  let take_rev, drop = fold_left_while folder [] xs in
+  rev take_rev, drop
 
 let take_while f xs = fst @@ takedrop_while f xs
 
