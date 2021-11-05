@@ -42,3 +42,27 @@ let fold_left2_rem f =
 let combine_rem xs ys =
   let xys, rem = fold_left2_rem (fun xys x y -> (x, y) :: xys) [] xs ys in
   rev xys, rem
+
+let takedrop n =
+  if n < 0 then invalid_arg "negative index";
+  let rec takedrop' acc n = function
+  | xs when n = 0 -> rev acc, xs
+  | x :: xs -> takedrop' (x :: acc) (n - 1) xs
+  | _ -> failwith "list too short"
+  in
+  takedrop' [] n
+
+let take n xs = fst @@ takedrop n xs
+
+let drop n xs = snd @@ takedrop n xs
+
+let takedrop_while f =
+  let rec takedrop_while acc = function
+  | x :: xs when f x -> takedrop_while (x :: acc) xs
+  | xs -> rev acc, xs
+  in
+  takedrop_while []
+
+let take_while f xs = fst @@ takedrop_while f xs
+
+let drop_while f xs = snd @@ takedrop_while f xs

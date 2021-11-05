@@ -29,3 +29,28 @@ val fold_left2_rem: ('acc -> 'a -> 'b -> 'acc) -> 'acc -> 'a t -> 'b t -> 'acc *
     longest possible combined list is returned along with the remainder of
     whichever of the two was longer. *)
 val combine_rem: 'a t -> 'b t -> ('a * 'b) t * ('a t, 'b t) Either.t option
+
+(** [takedrop n xs] is a pair of lists [ys, zs] where [ys] is comprised of the
+    first [n] elements of [xs], and [zs] of the remainder.
+
+    @raise Invalid_arg if [n] is negative
+    @raise Failure if [xs] has fewer than [n] elements
+  *)
+val takedrop: int -> 'a t -> 'a t * 'a t
+
+(** [take n xs] is [fst @@ takedrop n xs]. *)
+val take: int -> 'a t -> 'a t
+
+(** [drop n xs] is [snd @@ takedrop n xs]. *)
+val drop: int -> 'a t -> 'a t
+
+(** [takedrop_while f xs] is a pair of lists [ys, zs] where [ys] is comprised of
+    the longest prefix of [xs] whose elements satisfy [f], and [zs] is comprised
+    of the remainder. *)
+val takedrop_while: ('a -> bool) -> 'a t -> 'a t * 'a t
+
+(** [take_while f xs] is [fst @@ takedrop_while f xs]. *)
+val take_while: ('a -> bool) -> 'a t -> 'a t
+
+(** [drop_while f xs] is [snd @@ takedrop_while f xs]. *)
+val drop_while: ('a -> bool) -> 'a t -> 'a t
