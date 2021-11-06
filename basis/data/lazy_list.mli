@@ -21,6 +21,9 @@ val singleton : 'a -> 'a t
 (** [lsingleton x] is [lcons x nil]. *)
 val lsingleton : 'a Lazy.t -> 'a t
 
+(** [unfold] is like {!val:Seq.unfold} for lazy lists. *)
+val unfold: ('s -> ('a * 's) option) -> 's -> 'a t
+
 (** [is_nil xs] is [true] if [xs] is {!val:nil} and [false] otherwise. This
     function forces the head of the list. *)
 val is_nil : 'a t -> bool

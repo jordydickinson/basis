@@ -18,6 +18,11 @@ let singleton x = cons x nil
 
 let lsingleton x = Lazy.map_val (fun x -> Cons (x, nil)) x
 
+let rec unfold f x = lazy begin match f x with
+| None -> Nil
+| Some (v, x) -> Cons (v, unfold f x)
+end
+
 let hd_opt = function
 | lazy Nil -> None
 | lazy (Cons (x, _)) -> Some x
