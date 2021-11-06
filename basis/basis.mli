@@ -30,6 +30,7 @@ module Lazy = Lazy
 module List = List
 module Option = Option
 module Result = Result
+module String = String
 
 (** {0 Extensions}
 
