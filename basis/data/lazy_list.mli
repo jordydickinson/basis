@@ -118,6 +118,9 @@ val filter : ('a -> bool) -> 'a t -> 'a t
     or @raise Invalid_arg if [xs] and [ys] are of unequal lengths. *)
 val combine : 'a t -> 'b t -> ('a * 'b) t
 
+(** [cartprod xs ys] is the cartesian product of [xs] and [ys]. *)
+val cartprod: 'a t -> 'b t -> ('a * 'b) t
+
 (** [of_seq xs] is a lazy list comprised of the elements of the sequence [xs].
     This function is lazy. *)
 val of_seq : 'a Seq.t -> 'a t

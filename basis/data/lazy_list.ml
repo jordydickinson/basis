@@ -126,6 +126,10 @@ let rec combine xs ys = lazy begin match xs, ys with
 | _ -> invalid_arg "unequal lengths"
 end
 
+let cartprod xs ys =
+  map (fun x -> map (fun y -> x, y) ys) xs
+  |> flatten
+
 let to_seq xs = xs |> Seq.unfold begin fun xs ->
   Option.map (fun x -> x, tl xs) (hd_opt xs)
 end
