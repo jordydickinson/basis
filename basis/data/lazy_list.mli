@@ -104,6 +104,12 @@ val append : 'a t -> 'a t -> 'a t
     as {!val:map_val}. *)
 val append_val : 'a t -> 'a t -> 'a t
 
+(** [concat xss] is equivalent to [List.fold_left append nil xss]. *)
+val concat: 'a t list -> 'a t
+
+(** [flatten xss] is equivalent to [fold_left append nil xss], but it is lazy. *)
+val flatten: 'a t t -> 'a t
+
 (** [filter pred xs] is [xs] without any element [x] for which [pred x] is
     [false]. This function is lazy. *)
 val filter : ('a -> bool) -> 'a t -> 'a t

@@ -106,6 +106,13 @@ let rec append_val xs ys = xs |> Lazy.map_val begin function
 | Cons (x, xs) -> Cons (x, append_val xs ys)
 end
 
+let concat xss = List.fold_left append nil xss
+
+let rec flatten xss = lazy begin match xss with
+| lazy Nil -> Nil
+| lazy (Cons (xs, xss)) -> Lazy.force @@ append xs (flatten xss)
+end
+
 let rec filter pred xs = lazy begin match xs with
 | lazy Nil -> Nil
 | lazy (Cons (x, xs)) ->
