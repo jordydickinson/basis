@@ -40,6 +40,8 @@ sig
   include Applicative.Infix
 
   val (>>=) : 'a t -> ('a -> 'b t) -> 'b t
+
+  val (<?>) : 'a option t -> 'a option t -> 'a option t
 end
 
 (** An interface for infix operators for monadic types. *)
@@ -48,6 +50,8 @@ sig
   include Applicative.Infix2
 
   val (>>=) : ('a, 'e) t -> ('a -> ('b, 'e) t) -> ('b, 'e) t
+
+  val (<?>) : ('a option, 'e) t -> ('a option, 'e) t -> ('a option, 'e) t
 end
 
 (** An interface for infix operators for monadic types. *)
@@ -56,6 +60,8 @@ sig
   include Applicative.Infix3
 
   val (>>=) : ('a, 'd, 'e) t -> ('a -> ('b, 'd, 'e) t) -> ('b, 'd, 'e) t
+
+  val (<?>) : ('a option, 'd, 'e) t -> ('a option, 'd, 'e) t -> ('a option, 'd, 'e) t
 end
 
 (** An interface for [let] syntax for monadic types. *)
@@ -98,6 +104,8 @@ sig
 
   val all_unit: unit t list -> unit t
 
+  val orelse: 'a option t -> 'a option t -> 'a option t
+
   include Infix with type 'a t := 'a t
   include Syntax with type 'a t := 'a t
 end
@@ -112,6 +120,8 @@ sig
 
   val all_unit: (unit, 'e) t list -> (unit, 'e) t
 
+  val orelse: ('a option, 'e) t -> ('a option, 'e) t -> ('a option, 'e) t
+
   include Infix2 with type ('a, 'e) t := ('a, 'e) t
   include Syntax2 with type ('a, 'e) t := ('a, 'e) t
 end
@@ -125,6 +135,8 @@ sig
   val join: (('a, 'd, 'e) t, 'd, 'e) t -> ('a, 'd, 'e) t
 
   val all_unit: (unit, 'd, 'e) t list -> (unit, 'd, 'e) t
+
+  val orelse: ('a option, 'd, 'e) t -> ('a option, 'd, 'e) t -> ('a option, 'd, 'e) t
 
   include Infix3 with type ('a, 'd, 'e) t := ('a, 'd, 'e) t
   include Syntax3 with type ('a, 'd, 'e) t := ('a, 'd, 'e) t

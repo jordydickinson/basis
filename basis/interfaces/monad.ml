@@ -14,8 +14,12 @@ struct
   module Infix =
   struct
     include Infix
+
     let (>>=) x f = bind f x
-    let (>>|) x f = map f x
+
+    let (<?>) x y = x >>= function
+    | None -> y
+    | Some _ -> x
   end
   include Infix
 
@@ -39,6 +43,8 @@ struct
     let rec all_unit = function
     | [] -> return ()
     | x :: xs -> x >>= fun () -> all_unit xs
+
+    let orelse = (<?>)
   end
   include O
 end
@@ -57,8 +63,12 @@ struct
   module Infix =
   struct
     include Infix
+    
     let (>>=) x f = bind f x
-    let (>>|) x f = map f x
+
+    let (<?>) x y = x >>= function
+    | None -> y
+    | Some _ -> x
   end
   include Infix
 
@@ -82,6 +92,8 @@ struct
     let rec all_unit = function
     | [] -> return ()
     | x :: xs -> x >>= fun () -> all_unit xs
+
+    let orelse = (<?>)
   end
   include O
 end
@@ -100,8 +112,12 @@ struct
   module Infix =
   struct
     include Infix
+    
     let (>>=) x f = bind f x
-    let (>>|) x f = map f x
+
+    let (<?>) x y = x >>= function
+    | None -> y
+    | Some _ -> x
   end
   include Infix
 
@@ -125,6 +141,8 @@ struct
     let rec all_unit = function
     | [] -> return ()
     | x :: xs -> x >>= fun () -> all_unit xs
+
+    let orelse = (<?>)
   end
   include O
 end
