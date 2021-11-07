@@ -83,3 +83,17 @@ let uniq equal_elt =
   | x :: xs -> uniq' (x :: acc) xs
   in
   uniq' []
+
+let map_uniq equal_elt f = function
+| [] -> []
+| x :: xs ->
+  let rec map_uniq' acc prev = function
+  | [] -> rev acc
+  | x :: xs ->
+    let x = f x in
+    if equal_elt prev x
+    then map_uniq' acc x xs
+    else map_uniq' (x :: acc) x xs
+  in
+  let x = f x in
+  map_uniq' [x] x xs

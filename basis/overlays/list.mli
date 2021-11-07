@@ -65,3 +65,7 @@ val drop_while: ('a -> bool) -> 'a t -> 'a t
     [equal_elt] to test equality. Note that non-consecutive duplicates are not
     removed. *)
 val uniq: ('a -> 'a -> bool) -> 'a t -> 'a t
+
+(** [map_uniq equal_elt f xs] combines {!val:map} with {!val:uniq}, first
+    applying [f] and then testing for equality. *)
+val map_uniq: ('b -> 'b -> bool) -> ('a -> 'b) -> 'a t -> 'b t
