@@ -1,37 +1,37 @@
 (** A basic interface for monadic types. *)
 module type Basic =
 sig
-  type 'a t
+  include Applicative.Basic
 
   val return: 'a -> 'a t
 
   val bind: ('a -> 'b t) -> 'a t -> 'b t
 
-  val map: ('a -> 'b) -> 'a t -> 'b t
+  val join: 'a t t -> 'a t
 end
 
 (** A basic interface for monadic types. *)
 module type Basic2 =
 sig
-  type ('a, 'e) t
+  include Applicative.Basic2
 
   val return: 'a -> ('a, 'e) t
 
   val bind: ('a -> ('b, 'e) t) -> ('a, 'e) t -> ('b, 'e) t
 
-  val map: ('a -> 'b) -> ('a, 'e) t -> ('b, 'e) t
+  val join: (('a, 'e) t, 'e) t -> ('a, 'e) t
 end
 
 (** A basic interface for monadic types. *)
 module type Basic3 =
 sig
-  type ('a, 'd, 'e) t
+  include Applicative.Basic3
 
   val return: 'a -> ('a, 'd, 'e) t
 
   val bind: ('a -> ('b, 'd, 'e) t) -> ('a, 'd, 'e) t -> ('b, 'd, 'e) t
 
-  val map: ('a -> 'b) -> ('a, 'd, 'e) t -> ('b, 'd, 'e) t
+  val join: (('a, 'd, 'e) t, 'd, 'e) t -> ('a, 'd, 'e) t
 end
 
 (** An interface for infix operators for monadic types. *)
@@ -100,8 +100,6 @@ sig
   include Basic
   include Applicative.Open with type 'a t := 'a t
 
-  val join: 'a t t -> 'a t
-
   val all_unit: unit t list -> unit t
 
   val orelse: 'a option t -> 'a option t -> 'a option t
@@ -116,8 +114,6 @@ sig
   include Basic2
   include Applicative.Open2 with type ('a, 'e) t := ('a, 'e) t
 
-  val join : (('a, 'e) t, 'e) t -> ('a, 'e) t
-
   val all_unit: (unit, 'e) t list -> (unit, 'e) t
 
   val orelse: ('a option, 'e) t -> ('a option, 'e) t -> ('a option, 'e) t
@@ -131,8 +127,6 @@ module type Open3 =
 sig
   include Basic3
   include Applicative.Open3 with type ('a, 'd, 'e) t := ('a, 'd, 'e) t
-
-  val join: (('a, 'd, 'e) t, 'd, 'e) t -> ('a, 'd, 'e) t
 
   val all_unit: (unit, 'd, 'e) t list -> (unit, 'd, 'e) t
 

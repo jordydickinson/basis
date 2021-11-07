@@ -6,6 +6,10 @@ module T = struct
   let bind f m = fun s -> Seq.flat_map (fun (a, s) -> f a s) (m s)
 
   let map f m = fun s -> Seq.map (fun (a, s) -> f a, s) (m s)
+
+  let apply mf mx = bind (fun f -> map f mx) mf
+
+  let join m = bind Fun.id m
 end
 
 include T

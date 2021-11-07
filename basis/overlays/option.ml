@@ -6,6 +6,10 @@ include Monad.Make (struct
   let return = some
   
   let bind f x = bind x f
+
+  let apply f x = match f with
+  | None -> None
+  | Some f -> map f x
 end)
 
 (* [Stdlib] has the arguments here in the wrong order, but to keep the peace we

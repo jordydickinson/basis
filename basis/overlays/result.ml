@@ -4,6 +4,10 @@ module T = struct
   let return = ok
 
   let bind f x = bind x f
+
+  let apply f x = match f with
+  | Ok f -> map f x
+  | Error _ as f -> f
 end
 
 include T

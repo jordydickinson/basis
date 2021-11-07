@@ -38,8 +38,6 @@ struct
     include Infix
     include Syntax
 
-    let join m = bind (fun x -> x) m
-
     let rec all_unit = function
     | [] -> return ()
     | x :: xs -> x >>= fun () -> all_unit xs
@@ -87,8 +85,6 @@ struct
     include Infix
     include Syntax
 
-    let join m = bind (fun x -> x) m
-
     let rec all_unit = function
     | [] -> return ()
     | x :: xs -> x >>= fun () -> all_unit xs
@@ -135,8 +131,6 @@ struct
     include T
     include Infix
     include Syntax
-
-    let join m = bind (fun x -> x) m
 
     let rec all_unit = function
     | [] -> return ()
