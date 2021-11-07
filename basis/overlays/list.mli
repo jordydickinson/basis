@@ -60,3 +60,8 @@ val take_while: ('a -> bool) -> 'a t -> 'a t
 
 (** [drop_while f xs] is [snd @@ takedrop_while f xs]. *)
 val drop_while: ('a -> bool) -> 'a t -> 'a t
+
+(** [uniq equal_elt xs] is [xs] with consecutive duplicates removed, using
+    [equal_elt] to test equality. Note that non-consecutive duplicates are not
+    removed. *)
+val uniq: ('a -> 'a -> bool) -> 'a t -> 'a t

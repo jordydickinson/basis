@@ -75,3 +75,11 @@ let takedrop_while f xs =
 let take_while f xs = fst @@ takedrop_while f xs
 
 let drop_while f xs = snd @@ takedrop_while f xs
+
+let uniq equal_elt =
+  let rec uniq' acc = function
+  | [] | [_] as xs -> rev_append acc xs
+  | x1 :: x2 :: xs when equal_elt x1 x2 -> uniq' acc (x1 :: xs)
+  | x :: xs -> uniq' (x :: acc) xs
+  in
+  uniq' []
