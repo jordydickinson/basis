@@ -20,6 +20,7 @@ module List = List
 module Map = Map
 module Option = Option
 module Result = Result
+module Seq = Seq
 module String = String
 
 (** {0 Extensions} *)
