@@ -25,6 +25,7 @@ module String = String
 
 (** {0 Extensions} *)
 
+module Amb_state = Amb_state
 module Dyn_array = Dyn_array
 module Fqueue = Fqueue
 module Lazy_list = Lazy_list
