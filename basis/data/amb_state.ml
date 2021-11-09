@@ -42,3 +42,6 @@ module O = struct
   include Infix
 end
 include O
+
+let of_cps_state (m: _ Cps_state.t) : _ t =
+  m.cont (fun x s -> Seq.return (x, s))
