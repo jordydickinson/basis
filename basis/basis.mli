@@ -41,6 +41,7 @@ module String = String
   *)
 
 module Amb_state = Amb_state
+module Cps_state = Cps_state
 module Dyn_array = Dyn_array
 module Fqueue = Fqueue
 module Lazy_list = Lazy_list
