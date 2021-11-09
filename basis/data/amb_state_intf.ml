@@ -43,6 +43,7 @@ module type S = sig
 
   module Infix: Infix with type ('a, 's) t := ('a, 's) t
   module O: Open with type ('a, 's) t := ('a, 's) t
+  include Open with type ('a, 's) t := ('a, 's) t
 
   include Monad.S2
     with type ('a, 's) t := ('a, 's) t
