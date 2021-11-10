@@ -2,6 +2,7 @@ include Hashable_intf
 
 module Make (T: Basic) = struct
   include T
+  module WeakHashset = Weak.Make (T)
   module Table = Hashtbl.Make (T)
 end
 

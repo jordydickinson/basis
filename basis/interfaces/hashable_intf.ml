@@ -16,6 +16,7 @@ end
 module type S = sig
   type t
   include Basic with type t := t
+  module WeakHashset: Weak.S with type data = t
   module Table: Hashtbl.S with type key = t
 end
 
