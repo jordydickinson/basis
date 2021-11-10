@@ -18,6 +18,7 @@ module type S = sig
   include Basic with type t := t
   module WeakHashset: Weak.S with type data = t
   module Table: Hashtbl.S with type key = t
+  module WeakTable: Ephemeron.S with type key = t
 end
 
 (** A basic interface for seeded hashable types. *)
