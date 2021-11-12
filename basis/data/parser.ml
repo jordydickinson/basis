@@ -1,5 +1,5 @@
 module T = struct
-  type (+'a, +'e, !'i) t = (('a, 'e) result, 'i Lazy_list.t) State.t
+  type (+'a, +'e, !'i) t = (('a, 'e) result, 'i list) State.t
 
   let of_result = State.return
 
@@ -44,21 +44,21 @@ module O = struct
   let run = State.run
 
   let peek =
-    { State.call = fun k xs -> match Lazy_list.hd_opt xs with
-      | None -> k (Error End_of_input) xs
-      | Some x -> k (Ok x) xs
+    { State.call = fun k -> function
+      | [] -> k (Error End_of_input) []
+      | x :: _ as xs -> k (Ok x) xs
     }
 
   let skip =
-    { State.call = fun k xs -> match Lazy_list.tl_opt xs with
-      | None -> k (Error End_of_input) xs
-      | Some xs -> k (Ok ()) xs
+    { State.call = fun k -> function
+      | [] -> k (Error End_of_input) []
+      | _ :: xs -> k (Ok ()) xs
     }
 
   let next =
-    { State.call = fun k xs -> match Lazy_list.hd_opt xs with
-      | None -> k (Error End_of_input) xs
-      | Some x -> k (Ok x) (Lazy_list.tl xs)
+    { State.call = fun k -> function
+      | [] -> k (Error End_of_input) []
+      | x :: xs -> k (Ok x) xs
     }
 
   let alt p1 p2 = p1 |> recover (fun _ -> p2)

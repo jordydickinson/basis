@@ -21,7 +21,7 @@ module type Open = sig
 
   (** [run p input] runs the parser [p] with input [input] and returns the
       result. *)
-  val run: ('a, 'e, 'i) t -> 'i Lazy_list.t -> ('a, 'e) result * 'i Lazy_list.t
+  val run: ('a, 'e, 'i) t -> 'i list -> ('a, 'e) result * 'i list
 
   (** [peek] is a parser which obtains the next input element without advancing
       the input stream, or fails on end-of-input. *)
