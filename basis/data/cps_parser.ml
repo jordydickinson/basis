@@ -1,29 +1,29 @@
 module T = struct
-  type (+'a, +'e, !'i) t = (('a, 'e) result, 'i Lazy_list.t) Cps_state.t
+  type (+'a, +'e, !'i) t = (('a, 'e) result, 'i Lazy_list.t) State.t
 
-  let of_result = Cps_state.return
+  let of_result = State.return
 
-  let return a = Cps_state.return (Ok a)
+  let return a = State.return (Ok a)
 
-  let error e = Cps_state.return (Error e)
+  let error e = State.return (Error e)
 
-  let bind_result = Cps_state.bind
+  let bind_result = State.bind
 
-  let lift_result = Cps_state.map
+  let lift_result = State.map
 
-  let map f = Cps_state.map (Result.map f)
+  let map f = State.map (Result.map f)
 
   let bind f m =
-    { Cps_state.cont = fun k -> m.Cps_state.cont begin function
-      | Ok x -> (f x).Cps_state.cont k
+    { State.cont = fun k -> m.State.cont begin function
+      | Ok x -> (f x).State.cont k
       | Error _ as x -> k x
       end
     }
 
   let recover f m =
-    { Cps_state.cont = fun k -> m.Cps_state.cont begin function
+    { State.cont = fun k -> m.State.cont begin function
       | Ok _ as x -> k x
-      | Error e -> (f e).Cps_state.cont k
+      | Error e -> (f e).State.cont k
       end
     }
 
@@ -41,22 +41,22 @@ module O = struct
   include T
   include O
 
-  let run = Cps_state.run
+  let run = State.run
 
   let peek =
-    { Cps_state.cont = fun k xs -> match Lazy_list.hd_opt xs with
+    { State.cont = fun k xs -> match Lazy_list.hd_opt xs with
       | None -> k (Error End_of_input) xs
       | Some x -> k (Ok x) xs
     }
 
   let skip =
-    { Cps_state.cont = fun k xs -> match Lazy_list.tl_opt xs with
+    { State.cont = fun k xs -> match Lazy_list.tl_opt xs with
       | None -> k (Error End_of_input) xs
       | Some xs -> k (Ok ()) xs
     }
 
   let next =
-    { Cps_state.cont = fun k xs -> match Lazy_list.hd_opt xs with
+    { State.cont = fun k xs -> match Lazy_list.hd_opt xs with
       | None -> k (Error End_of_input) xs
       | Some x -> k (Ok x) (Lazy_list.tl xs)
     }
@@ -93,4 +93,4 @@ end
 
 include O
 
-let memoize n = Cps_state.memoize ~hash:Hashtbl.hash ~equal:(==) n
+let memoize n = State.memoize ~hash:Hashtbl.hash ~equal:(==) n

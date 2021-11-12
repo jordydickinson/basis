@@ -41,7 +41,7 @@ end
 module type S = sig
   type (+'a, !'s) t
 
-  val of_cps_state: ('a, 's) Cps_state.t -> ('a, 's) t
+  val of_state: ('a, 's) State.t -> ('a, 's) t
 
   module Infix: Infix with type ('a, 's) t := ('a, 's) t
   module O: Open with type ('a, 's) t := ('a, 's) t
