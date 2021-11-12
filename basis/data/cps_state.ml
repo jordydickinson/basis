@@ -26,3 +26,26 @@ module O = struct
   include T
   include O
 end
+
+module MakeMemoize (St: Hashable.Basic) = struct
+  module Table = Ephemeron.K1.Make (St)
+
+  let memoize n m =
+    let memo = Table.create n in
+    let rec m_memo =
+      { cont = fun k s -> match Table.find_opt memo s with
+        | None -> (m m_memo).cont (fun x s' -> Table.replace memo s (x, s'); k x s') s
+        | Some (x, s) -> k x s
+      }
+    in
+    m_memo
+end
+
+let memoize (type s) ~(hash: s -> int) ~(equal: s -> s -> bool) =
+  let module St: Hashable.Basic with type t = s = struct
+    type t = s
+    let equal = equal
+    let hash = hash
+  end in
+  let module M = MakeMemoize (St) in
+  M.memoize
