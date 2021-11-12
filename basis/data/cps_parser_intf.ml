@@ -50,6 +50,14 @@ module type Open = sig
       into a list [es], and the result is [Error es].
     *)
   val first: ('a, 'e, 'i) t list -> ('a, 'e list, 'i) t
+
+  (** [opt p] is a parser which succeeds with [Some] result of [p] or [None] if
+      [p] fails. *)
+  val opt: ('a, _, 'i) t -> ('a option, _, 'i) t
+
+  (** [many p] is a parser which runs [p] as many times as it succeeds, and
+      collects the results into a list. *)
+  val many: ('a, _, 'i) t -> ('a list, _, 'i) t
 end
 
 module type Infix = sig

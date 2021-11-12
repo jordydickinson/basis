@@ -80,6 +80,15 @@ module O = struct
       first' (fun es -> error (e :: es)) ps
     in
     first' error ps
+
+  let opt p = p >>| Option.some <|> return None
+
+  let many p =
+    let rec many' acc = let* x = opt p in match x with
+    | None -> return (List.rev acc)
+    | Some x -> many' (x :: acc)
+    in
+    many' []
 end
 
 include O
