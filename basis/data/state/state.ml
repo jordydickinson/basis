@@ -1,22 +1,22 @@
 module T = struct
-  type (+'a, !'s) t = { cont: 'r. ('a -> 's -> 'r) -> 's -> 'r }
+  type (+'a, !'s) t = { call: 'r. ('a -> 's -> 'r) -> 's -> 'r }
 
-  let return a = { cont = fun k -> k a }
+  let return a = { call = fun k -> k a }
 
-  let get = { cont = fun k s -> k s s }
+  let get = { call = fun k s -> k s s }
 
-  let set s = { cont = fun k _ -> k () s }
+  let set s = { call = fun k _ -> k () s }
 
-  let run m = m.cont (fun x s -> x, s)
+  let run m = m.call (fun x s -> x, s)
 
-  let map f m = { cont = fun k -> m.cont (fun x -> k (f x)) }
+  let map f m = { call = fun k -> m.call (fun x -> k (f x)) }
 
-  let bind f m = { cont = fun k -> m.cont (fun x -> (f x).cont k) }
+  let bind f m = { call = fun k -> m.call (fun x -> (f x).call k) }
 
-  let join m = { cont = fun k -> m.cont (fun m -> m.cont k) }
+  let join m = { call = fun k -> m.call (fun m -> m.call k) }
 
   let apply mf mx =
-    { cont = fun k -> mf.cont (fun f -> mx.cont (fun x -> k (f x))) }
+    { call = fun k -> mf.call (fun f -> mx.call (fun x -> k (f x))) }
 end
 
 include T
@@ -33,8 +33,8 @@ module MakeMemoize (St: Hashable.Basic) = struct
   let memoize n m =
     let memo = Table.create n in
     let rec m_memo =
-      { cont = fun k s -> match Table.find_opt memo s with
-        | None -> (m m_memo).cont (fun x s' -> Table.replace memo s (x, s'); k x s') s
+      { call = fun k s -> match Table.find_opt memo s with
+        | None -> (m m_memo).call (fun x s' -> Table.replace memo s (x, s'); k x s') s
         | Some (x, s) -> k x s
       }
     in

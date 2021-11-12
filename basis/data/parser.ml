@@ -14,16 +14,16 @@ module T = struct
   let map f = State.map (Result.map f)
 
   let bind f m =
-    { State.cont = fun k -> m.State.cont begin function
-      | Ok x -> (f x).State.cont k
+    { State.call = fun k -> m.State.call begin function
+      | Ok x -> (f x).State.call k
       | Error _ as x -> k x
       end
     }
 
   let recover f m =
-    { State.cont = fun k -> m.State.cont begin function
+    { State.call = fun k -> m.State.call begin function
       | Ok _ as x -> k x
-      | Error e -> (f e).State.cont k
+      | Error e -> (f e).State.call k
       end
     }
 
@@ -44,19 +44,19 @@ module O = struct
   let run = State.run
 
   let peek =
-    { State.cont = fun k xs -> match Lazy_list.hd_opt xs with
+    { State.call = fun k xs -> match Lazy_list.hd_opt xs with
       | None -> k (Error End_of_input) xs
       | Some x -> k (Ok x) xs
     }
 
   let skip =
-    { State.cont = fun k xs -> match Lazy_list.tl_opt xs with
+    { State.call = fun k xs -> match Lazy_list.tl_opt xs with
       | None -> k (Error End_of_input) xs
       | Some xs -> k (Ok ()) xs
     }
 
   let next =
-    { State.cont = fun k xs -> match Lazy_list.hd_opt xs with
+    { State.call = fun k xs -> match Lazy_list.hd_opt xs with
       | None -> k (Error End_of_input) xs
       | Some x -> k (Ok x) (Lazy_list.tl xs)
     }
