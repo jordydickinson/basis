@@ -45,3 +45,10 @@ include O
 
 let of_state (m: _ State.t) : _ t =
   m.cont (fun x s -> Seq.return (x, s))
+
+let to_state (m: _ t) : _ State.t =
+  let m = cut m in
+  { cont = fun k s -> match m s () with
+    | Nil -> k None s
+    | Cons ((x, s), _) -> k (Some x) s
+  }

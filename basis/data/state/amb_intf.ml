@@ -43,6 +43,10 @@ module type S = sig
 
   val of_state: ('a, 's) State.t -> ('a, 's) t
 
+  (** [to_state m] is a deterministic state monad which returns [Some] result of
+      [cut m] or [None] if [cut m] fails. *)
+  val to_state: ('a, 's) t -> ('a option, 's) State.t
+
   module Infix: Infix with type ('a, 's) t := ('a, 's) t
   module O: Open with type ('a, 's) t := ('a, 's) t
   include Open with type ('a, 's) t := ('a, 's) t
