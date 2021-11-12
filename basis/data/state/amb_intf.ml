@@ -43,6 +43,8 @@ module type S = sig
 
   val of_state: ('a, 's) State.t -> ('a, 's) t
 
+  val lift_state: ('a -> ('b, 's) State.t) -> ('a, 's) t -> ('b, 's) t
+
   (** [to_state m] is a deterministic state monad which returns [Some] result of
       [cut m] or [None] if [cut m] fails. *)
   val to_state: ('a, 's) t -> ('a option, 's) State.t

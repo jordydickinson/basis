@@ -46,6 +46,8 @@ include O
 let of_state (m: _ State.t) : _ t =
   m.call (fun x s -> Seq.return (x, s))
 
+let lift_state f m = m >>| f >>= of_state
+
 let to_state (m: _ t) : _ State.t =
   let m = cut m in
   { call = fun k s -> match m s () with
