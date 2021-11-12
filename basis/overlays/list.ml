@@ -97,3 +97,7 @@ let map_uniq equal_elt f = function
   in
   let x = f x in
   map_uniq' [x] x xs
+
+let hash hash_elt xs =
+  let h, len = fold_left (fun (h, len) x -> h + hash_elt x, len + 1) (0, 0) xs in
+  h + len

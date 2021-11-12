@@ -69,3 +69,7 @@ val uniq: ('a -> 'a -> bool) -> 'a t -> 'a t
 (** [map_uniq equal_elt f xs] combines {!val:map} with {!val:uniq}, first
     applying [f] and then testing for equality. *)
 val map_uniq: ('b -> 'b -> bool) -> ('a -> 'b) -> 'a t -> 'b t
+
+(** [hash hash_elt xs] computes a hash for [xs] using [hash_elt] to hash
+    individual elements. *)
+val hash: ('a -> int) -> 'a t -> int
