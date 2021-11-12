@@ -93,4 +93,4 @@ end
 
 include O
 
-let memoize n = State.memoize ~hash:Hashtbl.hash ~equal:(==) n
+let memoize ~hash ~equal = State.memoize ~hash:(List.hash hash) ~equal:(List.equal equal)

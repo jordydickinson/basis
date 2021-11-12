@@ -7,6 +7,3 @@ type eoi = End_of_input
 include Parser_intf.S
   with type ('a, 'e, 'i) t := ('a, 'e, 'i) t
   with type eoi := eoi
-
-(** [memoize n f] is the memoized fixpoint of [f]. *)
-val memoize: int -> (('a, 'e, 'i) t -> ('a, 'e, 'i) t) -> ('a, 'e, 'i) t

@@ -82,4 +82,10 @@ module type S = sig
     with type ('a, 'e, 'i) t := ('a, 'e, 'i) t
     with module Infix := Infix
     with module O := O
+
+  (** [memoize n f] is the memoized fixpoint of [f]. *)
+  val memoize:
+    hash:('i -> int) ->
+    equal:('i -> 'i -> bool) ->
+    int -> (('a, 'e, 'i) t -> ('a, 'e, 'i) t) -> ('a, 'e, 'i) t
 end
