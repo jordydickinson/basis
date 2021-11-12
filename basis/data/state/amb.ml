@@ -34,6 +34,8 @@ module O = struct
 
   let append m1 m2 = fun s -> Seq.append (m1 s) (m2 s)
 
+  let filter f m = fun s -> Seq.filter (fun (x, s) -> f x s) (m s)
+
   module Infix = struct
     include Infix
 

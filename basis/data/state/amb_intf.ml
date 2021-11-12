@@ -20,6 +20,10 @@ module type BasicOpen = sig
   (** [append m1 m2] is a state monad with all the possibilities of [m1] and
       [m2]. *)
   val append: ('a, 's) t -> ('a, 's) t -> ('a, 's) t
+
+  (** [filter f m] is a state monad with all the possibilities of [m], except
+      those which satisfy [f]. *)
+  val filter: ('a -> 's -> bool) -> ('a, 's) t -> ('a, 's) t
 end
 
 module type Open = sig
