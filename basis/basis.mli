@@ -42,11 +42,11 @@ module String = String
 
 module Amb = Amb
 module Cachetbl = Cachetbl
-module Cps_parser = Cps_parser
 module Dyn_array = Dyn_array
 module Fqueue = Fqueue
 module Lazy_list = Lazy_list
 module Or = Or
+module Parser = Parser
 module Prefix_map = Prefix_map
 module Sexp = Sexp
 module State = State

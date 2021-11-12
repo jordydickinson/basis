@@ -4,7 +4,7 @@ type (+'a, +'e, !'i) t = (('a, 'e) result, 'i Lazy_list.t) State.t
 (** Indicates that the end of input has been reached. *)
 type eoi = End_of_input
 
-include Cps_parser_intf.S
+include Parser_intf.S
   with type ('a, 'e, 'i) t := ('a, 'e, 'i) t
   with type eoi := eoi
 
