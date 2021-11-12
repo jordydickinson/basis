@@ -25,7 +25,7 @@ module String = String
 
 (** {0 Extensions} *)
 
-module Amb_state = Amb_state
+module Amb = Amb
 module Cachetbl = Cachetbl
 module Cps_state = Cps_state
 module Cps_parser = Cps_parser

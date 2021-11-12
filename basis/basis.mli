@@ -40,7 +40,7 @@ module String = String
     {!module:Stdlib}. For the most part, these are new datatypes.
   *)
 
-module Amb_state = Amb_state
+module Amb = Amb
 module Cachetbl = Cachetbl
 module Cps_state = Cps_state
 module Cps_parser = Cps_parser
