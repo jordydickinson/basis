@@ -83,3 +83,5 @@ module O = struct
 end
 
 include O
+
+let memoize n = Cps_state.memoize ~hash:Hashtbl.hash ~equal:(==) n
