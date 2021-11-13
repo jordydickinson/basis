@@ -7,7 +7,6 @@ module Hashable = Hashable
 module Monad = Monad
 module Pretty = Pretty
 module Sexpable = Sexpable
-module Storable = Storable
 module Stringable = Stringable
 
 (** {0 Overlays} *)
@@ -26,16 +25,10 @@ module String = String
 (** {0 Extensions} *)
 
 module Amb = Amb
-module Cachetbl = Cachetbl
-module Dyn_array = Dyn_array
 module Fqueue = Fqueue
 module Lazy_list = Lazy_list
-module Or = Or
-module Parser = Parser
-module Prefix_map = Prefix_map
 module Sexp = Sexp
 module State = State
-module Storage = Storage
 module Void = Void
 
 (** {0 Pervasives} *)
