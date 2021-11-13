@@ -6,7 +6,6 @@ module Equatable = Equatable
 module Hashable = Hashable
 module Monad = Monad
 module Pretty = Pretty
-module Sexpable = Sexpable
 module Stringable = Stringable
 
 (** {0 Overlays} *)
@@ -27,7 +26,6 @@ module String = String
 module Amb = Amb
 module Fqueue = Fqueue
 module Lazy_list = Lazy_list
-module Sexp = Sexp
 module State = State
 module Void = Void
 
