@@ -9,7 +9,7 @@ homepage: "https://github.com/jordydickinson/basis"
 bug-reports: "https://github.com/jordydickinson/basis/issues"
 depends: [
   "dune" {>= "2.8"}
-  "ocaml" {>= "4.12.0"}
+  "ocaml" {>= "5.1.0" & < "6.0.0"}
   "odoc" {with-doc}
 ]
 build: [

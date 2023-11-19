@@ -13,8 +13,5 @@ end
 
 module MakeSeeded (T: SeededBasic) = struct
   include T
-  module SeededTable = Hashtbl.MakeSeeded (struct
-    include T
-    let hash = seeded_hash
-  end)
+  module SeededTable = Hashtbl.MakeSeeded (T)
 end

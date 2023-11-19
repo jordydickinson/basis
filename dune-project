@@ -7,7 +7,7 @@
  (name basis)
  (synopsis "A small Stdlib overlay")
  (depends
-  (ocaml (and (>= 4.12.0))))
+  (ocaml (and (>= 5.1.0) (< 6.0.0))))
  (license LGPL-3.0)
  (maintainers "Jordy Dickinson <jordy.dickinson@icloud.com>")
  (authors "Jordy Dickinson <jordy.dickinson@icloud.com>")
@@ -18,7 +18,7 @@
  (name basis_experiments)
  (synopsis "A small Stdlib overlay")
  (depends
-  (ocaml (and (>= 4.12.0))))
+  (ocaml (and (>= 5.1.0) (< 6.0.0))))
  (license LGPL-3.0)
  (maintainers "Jordy Dickinson <jordy.dickinson@icloud.com>")
  (authors "Jordy Dickinson <jordy.dickinson@icloud.com>")
