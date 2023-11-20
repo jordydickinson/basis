@@ -26,6 +26,20 @@ module type Basic1 = sig
   val equal : 'a t -> 'a t -> bool
 end
 
+(** An interface for types which have some notion of equality. *)
+module type Basic2 = sig
+
+  type ('a, 'b) t
+
+  (** [equal a b] is [true] if [a] and [b] are equal and [false] otherwise.
+
+      This function must satisfy the constraint that [a = b] implies
+      [equal a b], but otherwise the meaning of equality is up to the
+      implementation of this interface.
+    *)
+  val equal : ('a, 'b) t -> ('a, 'b) t -> bool
+end
+
 
 (** Infix equality operators *)
 module type Infix = sig
@@ -52,6 +66,18 @@ module type Infix1 = sig
   val ( <> ) : 'a t -> 'a t -> bool
 end
 
+(** Infix equality operators *)
+module type Infix2 = sig
+
+  type ('a, 'b) t
+
+  (** [( = )] is an alias for [equal]. *)
+  val ( = ) : ('a, 'b) t -> ('a, 'b) t -> bool
+
+  (** [( <> )] is the logical negation of [( = )]. *)
+  val ( <> ) : ('a, 'b) t -> ('a, 'b) t -> bool
+end
+
 (** An interface for types which have some notion of equality. *)
 module type S = sig
   type t
@@ -64,3 +90,8 @@ module type S1 = sig
   include Basic1 with type 'a t := 'a t
 end
 
+(** An interface for types which have some notion of equality. *)
+module type S2 = sig
+  type ('a, 'b) t
+  include Basic2 with type ('a, 'b) t := ('a, 'b) t
+end
