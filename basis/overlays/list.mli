@@ -70,6 +70,11 @@ val uniq: ('a -> 'a -> bool) -> 'a t -> 'a t
     applying [f] and then testing for equality. *)
 val map_uniq: ('b -> 'b -> bool) -> ('a -> 'b) -> 'a t -> 'b t
 
+(** [group_by_int group xs] is a mapping from integers to groups of elements of
+    [xs] where the list of elements at key [i] is comprised of all [x] in [xs]
+    such that [group x = i]. *)
+val group_by_int: ('a -> int) -> 'a t -> 'a t Int.Map.t
+
 (** [hash hash_elt xs] computes a hash for [xs] using [hash_elt] to hash
     individual elements. *)
 val hash: ('a -> int) -> 'a t -> int
