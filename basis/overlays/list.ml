@@ -107,6 +107,11 @@ let group_by_int group xs =
   in
   group_by_int' Int.Map.empty xs
 
+let swap_hd i xs =
+  if i = 0 then xs else
+  let xs1, xs2 = takedrop i xs in
+  hd xs2 :: tl xs1 @ hd xs1 :: tl xs2
+
 let hash hash_elt xs =
   let h, len = fold_left (fun (h, len) x -> h + hash_elt x, len + 1) (0, 0) xs in
   h + len

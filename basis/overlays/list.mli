@@ -75,6 +75,12 @@ val map_uniq: ('b -> 'b -> bool) -> ('a -> 'b) -> 'a t -> 'b t
     such that [group x = i]. *)
 val group_by_int: ('a -> int) -> 'a t -> 'a t Int.Map.t
 
+(** [swap_hd i xs] is [xs] with its head and [i]th element swapped. For example,
+    [swap_hd 2 [1; 2; 3; 4]] is [3; 2; 1; 4].
+    
+    @raise Failure if [xs] does not contain an [i]th element. *)
+val swap_hd: int -> 'a t -> 'a t
+
 (** [hash hash_elt xs] computes a hash for [xs] using [hash_elt] to hash
     individual elements. *)
 val hash: ('a -> int) -> 'a t -> int
