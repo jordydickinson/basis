@@ -121,6 +121,11 @@ let insert i x xs =
   in
   insert' [] i xs
 
+let rec transpose xss = match xss with
+| [] -> []
+| [] :: xss -> transpose xss
+| (x :: xs) :: xss -> (x :: map hd xss) :: transpose (xs :: map tl xss)
+
 let hash hash_elt xs =
   let h, len = fold_left (fun (h, len) x -> h + hash_elt x, len + 1) (0, 0) xs in
   h + len

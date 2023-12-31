@@ -86,6 +86,8 @@ val swap_hd: int -> 'a t -> 'a t
     'd'; 'e']] is [['b'; 'c'; 'a'; 'd'; 'e']]. *)
 val insert: int -> 'a -> 'a t -> 'a t
 
+val transpose: 'a t t -> 'a t t
+
 (** [hash hash_elt xs] computes a hash for [xs] using [hash_elt] to hash
     individual elements. *)
 val hash: ('a -> int) -> 'a t -> int
