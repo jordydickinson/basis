@@ -112,6 +112,15 @@ let swap_hd i xs =
   let xs1, xs2 = takedrop i xs in
   hd xs2 :: tl xs1 @ hd xs1 :: tl xs2
 
+let insert i x xs =
+  assert (i >= 0);
+  let rec insert' acc i = function
+  | [] -> if i = 0 then rev (x :: acc) else invalid_arg "out of bounds"
+  | xs when i = 0 -> rev_append (x :: acc) xs
+  | x' :: xs -> insert' (x' :: acc) (i - 1) xs
+  in
+  insert' [] i xs
+
 let hash hash_elt xs =
   let h, len = fold_left (fun (h, len) x -> h + hash_elt x, len + 1) (0, 0) xs in
   h + len

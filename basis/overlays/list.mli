@@ -81,6 +81,11 @@ val group_by_int: ('a -> int) -> 'a t -> 'a t Int.Map.t
     @raise Failure if [xs] does not contain an [i]th element. *)
 val swap_hd: int -> 'a t -> 'a t
 
+(** [insert i x xs] is [xs] with [x] at index [i] and all elements [y] in [xs]
+    at index [j > i] at indices [j + 1]. For example, [insert 2 'a' ['b'; 'c';
+    'd'; 'e']] is [['b'; 'c'; 'a'; 'd'; 'e']]. *)
+val insert: int -> 'a -> 'a t -> 'a t
+
 (** [hash hash_elt xs] computes a hash for [xs] using [hash_elt] to hash
     individual elements. *)
 val hash: ('a -> int) -> 'a t -> int
