@@ -21,6 +21,7 @@ module Stringable = Stringable
     previously, or add auxiliary helper functions.
   *)
 
+module Array = Array
 module Int = Int
 module Int32 = Int32
 module Int64 = Int64

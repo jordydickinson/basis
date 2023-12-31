@@ -10,6 +10,7 @@ module Stringable = Stringable
 
 (** {0 Overlays} *)
 
+module Array = Array
 module Int = Int
 module Int32 = Int32
 module Int64 = Int64
