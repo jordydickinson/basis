@@ -62,3 +62,6 @@ val unreachable: void -> 'a
   allocations, since it allows you to check equality without producing a type
   constraint. *)
 val phys_same: 'a -> 'b -> bool
+
+(* [hash_combine h1 h2] is the combination of hashes [h1] and [h2]. *)
+val hash_combine: int -> int -> int
