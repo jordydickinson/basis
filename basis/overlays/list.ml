@@ -127,5 +127,5 @@ let rec transpose xss = match xss with
 | (x :: xs) :: xss -> (x :: map hd xss) :: transpose (xs :: map tl xss)
 
 let hash hash_elt xs =
-  let h, len = fold_left (fun (h, len) x -> h + hash_elt x, len + 1) (0, 0) xs in
-  h + len
+  let h, len = fold_left (fun (h, len) x -> Pervasives.hash_combine h (hash_elt x), len + 1) (0, 0) xs in
+  Pervasives.hash_combine h (Int.hash len)
